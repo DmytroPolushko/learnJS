@@ -1,12 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Введение в браузерные события</title>
 </head>
+
 <body>
-	
+
+	<!-- Использование атрибута HTML -->
+	<input type="button" value="push me" onclick="console.log('click!')" id="firstButton">
+	<br>
+	<br>
+	<input type="button" value="count rabbit" onclick="countRabbits()" id="rabbit">
+	<br>
+	<br>
+	<input class="lol kek cheburek" type="button" value="this button" id="thisButton">
+	<br>
+	<br>
+	<input type="button" value="addEventListener" id="btnAddEvent">
+	<br>
+	<br>
+	<input type="button" value="event" id="eventObject">
+	<br>
+	<br>
+	<input type="button" value="нажми меня" id="elemBtn">
+	<br>
+	<br>
+	<input type="button" value="..." id="elemBtn2">
+	<script>
+
+		'use strict'
+		// Обработчики событий
+
+		//Использование атрибута HTML
+		function countRabbits() {
+			for (let i = 1; i <= 3; i++) {
+				console.log(`Rabbit № ${i}`);
+
+			}
+		}
+
+		//Использование свойства DOM-объекта
+		firstButton.onclick = () => console.log('click-clack!'); // Перезаписали обработчик
+
+		//Доступ к элементу через this
+		thisButton.onclick = function () {
+			console.dir(this.outerHTML);
+		}
+
+
+		//addEventListener
+		function handler() {
+			console.log('hello')
+		}
+
+		btnAddEvent.addEventListener('click', handler)
+
+		function handlerAgain() {
+			console.log('hello again')
+		}
+
+		btnAddEvent.addEventListener('click', handlerAgain)
+
+		function newHendler() {
+			console.log('good bye')
+		}
+
+		btnAddEvent.addEventListener('click', newHendler, {
+			once: true
+		})
+
+		btnAddEvent.removeEventListener('click', handler);
+
+		console.log(btnAddEvent);
+
+		//Объект события
+
+		eventObject.onclick = function (event) {
+			console.log(event)
+			console.log(`${event.type} on ${event.currentTarget}`)
+			console.log(`Coordinats: ${event.clientX}px ${event.clientY}px`)
+		}
+
+		//Объект-обработчик: handleEvent
+
+		elemBtn.addEventListener('click', {
+			handleEvent(event) {
+				console.log(event.type)
+			}
+		})
+
+		class Menu {
+			handleEvent(event) {
+				if (event.type == 'mousedown') event.target.value = 'Нажата кнопка мыши';
+
+				if (event.type == 'mouseup') event.target.value += '...и отжата';
+			}
+		}
+
+		let menu = new Menu();
+
+		elemBtn.addEventListener('mousedown', menu)
+		elemBtn.addEventListener('mouseup', menu)
+
+
+		firstButton.addEventListener('mousedown', menu)
+		firstButton.addEventListener('mouseup', menu)
+
+
+		class MenuDeleg {
+			handleEvent(event) {
+				let method = `on${event.type[0].toUpperCase()}${event.type.slice(1)}`
+				console.log(this)
+				this[method](event.target)
+			}
+
+			onMousedown(elem) {
+				elem.value = 'Мышкой нажали';
+			}
+
+			onMouseup(elem) {
+				elem.value += '... и отжали'
+			}
+		}
+
+		let menuDeleg = new MenuDeleg()
+
+		console.log(menuDeleg)
+
+		elemBtn2.addEventListener('mousedown', menuDeleg)
+		elemBtn2.addEventListener('mouseup', menuDeleg)
+
+
+
+		field.onclick = function (event) {
+
+			let coordY = event.clientY - this.clientTop - this.offsetTop - ball.clientHeight / 2 + pageYOffset;
+			let coordX = event.clientX - this.clientLeft - this.offsetLeft - ball.clientWidth / 2 + pageXOffset;
+
+			if (coordY < 0) coordY = 0;
+			else if (coordY > this.clientHeight - ball.clientHeight) coordY = this.clientHeight - ball.clientHeight;
+
+			if (coordX < 0) coordX = 0;
+			else if (coordX > this.clientWidth - ball.clientWidth) coordX = this.clientWidth - ball.clientWidth;
+
+
+
+			ball.style.top = coordY + 'px';
+			ball.style.left = coordX + 'px';
+		}
+
+
+
+	</script>
+
 </body>
+
 </html>

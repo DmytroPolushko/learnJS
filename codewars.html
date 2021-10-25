@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<script>
+		let num1 = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+		let num2 = ['twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+
+		function number2words(num) {
+			if (num < 20) return num1[num];
+
+			if (num < 100) {
+				return num2[Math.floor(num / 10 - 2)] + (num % 10 ? '-' + num1[num % 10] : '')
+			}
+			if (num < 1000) {
+				return num1[Math.floor(num / 100)] + ' hundred' + (num % 100 ? ' ' + number2words(num % 100) : '')
+			} else {
+				return number2words(Math.floor(num / 1000)) + ' thousend' + (num % 1000 ? ' ' + number2words(num % 1000) : '')
+			}
+
+		}
+
+		console.log(number2words(888888))
+
+
+
+	</script>
+</body>
+
+</html>
